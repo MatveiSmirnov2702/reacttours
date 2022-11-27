@@ -2,7 +2,7 @@ function Card(props) {
     return (
         <div className="card">
             <div className="favorite">
-                <img src="/img/unlike.svg" alt="unlike" />
+                <img src="/img/unlike" alt="unlike" />
             </div>
             <img width={150} height={121} src={props.imageURL} alt="brazilia" />
             <h5>{props.title}</h5>
