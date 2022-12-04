@@ -25,6 +25,33 @@ h3,
 p {
   margin: 0;
 }
+.cartEmpty {
+  text-align: center;
+
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenButton {
+    width: 245px;
+    margin-top: 20px;
+
+    &:hover {
+      img {
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      transform: rotate(180deg);
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
 
 .wrapper {
   background: #ffffff;
@@ -48,7 +75,17 @@ p {
   border: 1px solid #f3f3f3;
   border-radius: 10px;
   padding: 0 15px;
+  position: relative;
+  
+  .clear {
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    top: 13px;
+    right: 15px;
 
+  }
   input {
     border: 0;
     padding: 15px;
@@ -148,6 +185,7 @@ p {
     background: darken(#9dd558, 5%);
   }
 }
+
 
 .items {
   flex: 1;
