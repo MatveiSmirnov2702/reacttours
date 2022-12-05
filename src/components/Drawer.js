@@ -27,7 +27,8 @@ function Drawer({onClose, onRemove, items =[ ]  }) {
                 />
                 <div className="mr-20">
                   <p className="mb-5">{obj.title}</p>
-                  <b>{obj.price}</b>
+                  <h6>{obj.date}</h6>
+                  <p>{obj.price} руб.</p>
                 </div>
                 <img
                   onClick={() => onRemove(obj.id) }

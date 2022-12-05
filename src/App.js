@@ -10,34 +10,38 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
-  const [searchValue, setSearchValue] = React.useState("");
+  const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+
   React.useEffect(() => {
-    axios
-      .get("https://6383bb211ada9475c8069d29.mockapi.io/Items")
-      .then((res) => {
-        setItems(res.data);
-      });
-    axios
-      .get("https://6383bb211ada9475c8069d29.mockapi.io/cart")
-      .then((res) => {
-        setCartItems(res.data);
-      });
-    axios
-      .get("https://6383bb211ada9475c8069d29.mockapi.io/favorites")
-      .then((res) => {
-        setFavorites(res.data);
-      });
+   async function fetchData() {
+
+      const cartResponse = await axios.get("https://6383bb211ada9475c8069d29.mockapi.io/cart");
+      const favoritesResponse = await axios.get("https://6383bb211ada9475c8069d29.mockapi.io/favorites");
+      const itemsResponse = await axios.get("https://6383bb211ada9475c8069d29.mockapi.io/Items");
+
+        setIsLoading(false);
+
+        setCartItems(cartResponse.data);
+        setFavorites(favoritesResponse.data);
+        setItems(itemsResponse.data);
+      } 
+    
+      fetchData();
   }, []);
 
   const onAddToCart = (obj) => {  
-    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+    
+    if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
       axios.delete(`https://6383bb211ada9475c8069d29.mockapi.io/cart/${obj.id}`);
-      setCartItems((prev) => prev.filter((item) => Number(item.id)  !== Number(obj.id)));
+      setCartItems(prev => prev.filter(item => Number(item.id)  !== Number(obj.id)));
     } else {
       axios.post("https://6383bb211ada9475c8069d29.mockapi.io/cart", obj);
       setCartItems((prev) => [...prev, obj]);
     }
+    console.log(obj);
   };
 
   const onRemoveItem = (id) => {
@@ -78,13 +82,14 @@ function App() {
           path="/"
           element={
             <Home
-              cartItems={cartItems}
               items={items}
+              cartItems={cartItems}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput}
               onAddToFavorite={onAddToFavorite}
               onAddToCart={onAddToCart}
+              isLoading={isLoading}
             />
           }
         ></Route>
